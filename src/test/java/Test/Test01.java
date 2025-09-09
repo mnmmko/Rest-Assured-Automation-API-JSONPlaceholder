@@ -11,6 +11,7 @@ public class Test01 extends BaseTest{
     String updatedPost = "{ \"id\": 66, \"title\": \"updated title\", \"body\": \"updated body\", \"userId\": 1 }";
     String patchBody = "{ \"title\": \"patched title\" }";
     List<String> title;
+    int userId;
     String updated_title;
 
     @Test(priority=0)
@@ -29,7 +30,8 @@ public class Test01 extends BaseTest{
     @Test(priority = 2,dependsOnMethods = "vertify_data_posts")
     public void vertify_data_put(){
         setPutresponse(updatedPost,"/posts/7");
-        Assert.assertEquals(200,putresponse.getStatusCode());
+        userId=putresponse.jsonPath().getInt("userId");
+        Assert.assertEquals(1,userId);
     }
 
     @Test(priority = 3,dependsOnMethods = "vertify_data_put")
